@@ -1,22 +1,22 @@
 <template>
   <main class="page-audio">
-    <header class="">Audio demo</header>
-    <section id="testAudio">
-      原文: {{paraText}}
+    <header class="">
+    <section id="testAudio" class="flex-row">
+      <button class="button mx-auto" @click="playText()">Play</button>
     </section>
-    <section class="flex-row">        
-      <button class="button" @click="playText()">Play</button>
-      <p>period: {{alphaDuration}}, max: {{maxMeter}}</p>
+    </header>
+    <section>
+      period: {{alphaDuration}}, min meters: {{maxMeter}}
     </section>
     <section style="width: 50%; float: left">
-      Split: 
-      <p v-for="(item, index) in paraArr" :key="index" style="margin-bottom: 0.5rem; clear: both;">
-        <span v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" class="word word-span" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}"><span class="word-letter">{{alpha.letter}}</span><span class="word-meter">{{alpha.metersStr}}</span></span>
-      </p>
+      <p>Split Mode</p>
+      <span v-for="(item, index) in paraArr" :key="index" style="margin-bottom: 0.5rem; clear: both;">
+        <span v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" class="word word-span" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}" :style="{'padding-right': alpha.meters * 200 + 'px'}"><span class="word-letter">{{alpha.letter}}</span><span class="word-meter">{{alpha.metersStr}}</span></span>
+      </span>
     </section>
     
     <section style="width: 50%; float: left">
-      InText:
+      InLine Mode
       <div class="word-wrap">
         <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
           <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}">{{alpha.letter}}</span>
@@ -28,17 +28,18 @@
 
 <script>
 import Vue from 'vue'
-import { DemoText } from 'config/'
 import Tone from 'tone'
 import Observe from 'observe'
 import { Lyrics, NotesMajor, NotesWholeTone, NotesChromatic, NotesPentatonic, OBEvent } from 'config/'
 import SmapleLibrary from '@/lib/Tonejs-Instruments.js'
 
 export default {
-  name: 'Audio',
+  name: 'AudioPlayer',
+  props: {
+    paraText: String,
+  },
   data() {
     return {
-      paraText: DemoText.para,
       paraArr: [],
       activeLetter: {
         wordIndex: -1,
@@ -52,7 +53,7 @@ export default {
         'notes_pentatonic': NotesPentatonic
       },
       Notes: NotesMajor,
-      alphaDuration: 1000,
+      alphaDuration: 2000,
       maxMeter: 16,
       playState: {
         isPlaying: false,
@@ -61,8 +62,13 @@ export default {
       }
     }
   },
+  computed: {
+    para() {
+      this.paraArr = this.computedText().map(item => this.computedItem(item))
+      return this.paraText
+    }
+  },
   mounted() {
-    console.log(DemoText)
     this.paraArr = this.computedText().map(item => this.computedItem(item))
 
     var vm = this
@@ -99,7 +105,7 @@ export default {
       }
     },
     computedText() {
-      let input = this.input && this.input != void 0 && this.input != '' ? this.input : DemoText.para
+      let input = this.input && this.input != void 0 && this.input != '' ? this.input : this.paraText
       let arr = input.replace(/\n/g, ' ').replace(/\?|!|'|:|,/g, '').split(' ')
       let paraArr = arr.map(element => {
         return element.toString().toLowerCase()
@@ -189,7 +195,7 @@ export default {
 @pblue: #1296db;
 @textdark: #2c3e50;
 .page-audio { 
-  width: 100%; min-width: 1080px; min-height: 100%; padding: 1px; padding-bottom: 150px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: @textdark; font-weight: bold; position: absolute; top: 0; left: 0;
+  width: 100%; min-width: 1080px; min-height: 100%; padding: 1px; padding-bottom: 150px; font-family: 'Avenir', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: @textdark; font-weight: bold;
   header, section {
     padding: 16px;
   }
@@ -203,7 +209,7 @@ export default {
   }
   .word-wrap {
     display: flex;
-    width: 300px;
+
     flex-flow: row wrap;
     align-items: baseline;
   }
@@ -214,7 +220,8 @@ export default {
       line-height: 1.5;
     }
     .highlight {
-      color: #bb22bb;
+      color: rgb(252, 180, 86);
+      font-weight: bolder;
     }
 
     &.word-span {
@@ -235,8 +242,13 @@ export default {
     }
   }
   .button {
-    padding: 5px 10px;
+    padding: 10px 16px;
+    border-radius: 12px;
     margin: 10px 10px;
+
+    &:focus {
+      outline: 12px;
+    }
   }
 }
 </style>

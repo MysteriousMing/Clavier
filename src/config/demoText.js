@@ -1,9 +1,3 @@
 export default {
-  para: `That one, the fairest of all Rivers, lov'd
-To blend his murmurs with my Nurse's song,
-And from his alder shades and rocky falls,
-And from his fords and shallows, sent a voice
-That flow'd along my dreams? For this, didst Thou,
-O Derwent! travelling over the green Plains
-Near my 'sweet Birthplace', didst thou, beauteous Stream`
+  para: `The man once hailed as “America’s Mayor” is now at the center of the most confounding political story of the Trump presidency. Rudy Giuliani’s back-channel efforts to pressure Ukrainian officials on behalf of President Trump has helped prompt the impeachment inquiry that may tarnish both men.`
 }

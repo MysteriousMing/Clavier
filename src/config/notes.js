@@ -148,7 +148,7 @@ export default {
     {id: 34, name: 'D4', keyCode: '79', key: 'o', url: noteBaseUrl + 'a89.mp3', type: 'white'},
     {id: 30, name: 'E4', keyCode: '72', key: 'h', url: noteBaseUrl + 'a85.mp3', type: 'white'},
     {id: 18, name: 'F4', keyCode: '68', key: 'd', url: noteBaseUrl + 'a73.mp3', type: 'white'},
-    {id: 24, name: 'G4', keyCode: '71', key: 'm', url: noteBaseUrl + 'a79.mp3', type: 'white'},
+    {id: 24, name: 'G4', keyCode: '77', key: 'm', url: noteBaseUrl + 'a79.mp3', type: 'white'},
     {id: 25, name: 'A4', keyCode: '89', key: 'y', url: noteBaseUrl + 'a80.mp3', type: 'white'},
     {id: 10, name: 'B4', keyCode: '190', key: '.', url: noteBaseUrl + 'a65.mp3', type: 'white'},
     {id: 28, name: 'C5', keyCode: '186', key: ';', url: noteBaseUrl + 'a83.mp3', type: 'white'},

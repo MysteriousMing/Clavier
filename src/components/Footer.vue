@@ -1,6 +1,6 @@
 <style lang="less">
 @pblue: #1296db;
-.page-footer { width: 100%; min-width: 1024px; height: 50px; line-height: 50px; background: rgba(255,255,255,0.5); position: fixed; bottom: 0; left: 0; right: 0; text-align: center;
+.page-footer { width: 100%; min-width: 1024px; height: 50px; line-height: 50px; background: rgba(255,255,255,0.5); position: absolute; width: 100%; bottom: 0; left: 0; right: 0; text-align: center;
   a {
     &:hover { color: #fff; background: @pblue; }
   }
@@ -39,10 +39,6 @@
             <div class="tab" :class="{'active-tab': payType=='ALIPAY'}" @click="togglePayType('ALIPAY')">
               <i class="icon icon-alipay"></i>
             </div>
-          </div>
-          <div class="qrcode-wrap">
-            <img class="qrcode wxpay" v-show="payType=='WXPAY'" src="static/imgs/wxqr.png"/>
-            <img class="qrcode alipay" v-show="payType=='ALIPAY'"  src="static/imgs/aliqr.jpg"/>
           </div>
         </div>
       </li>

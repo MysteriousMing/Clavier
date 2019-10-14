@@ -7,10 +7,10 @@
     <section class="page-section-wrap">
       <textarea class="input-textarea" v-model="textStore" placeholder="input your text here!"></textarea>
     </section>
-    <section class="page-section-wrap">
-      <button @click="autoPlayTry" class="mx-auto">自动播放试试</button>
-    </section>
     <p class="input-tips">Word 'Clavier' extracted from Well-tempered Claviar by Bach. Not only the keyboard ⌨️ but the key board 🎹 Type something here, and listen the music for your words.</p>
+    <section>
+       <AudioPlayer :para-text="textStore"></AudioPlayer>
+    </section>
     <PageFooter></PageFooter>
   </div>
 </template>
@@ -21,13 +21,16 @@ import Piano from '@/components/Piano'
 import PageFooter from '@/components/Footer'
 import EasyScore from '@/components/EasyScore'
 import DemoScore from '@/components/DemoScore'
+import AudioPlayer from '@/pages/audio/audio'
+
+import { DemoText } from 'config/' //  DemoText.para
 
 export default {
   name: 'Home',
   data() {
     return {
       percent: 0,
-      textStore: ''
+      textStore: DemoText.para
     }
   },
   mounted() {
@@ -88,7 +91,8 @@ export default {
     Piano,
     PageFooter,
     EasyScore,
-    DemoScore
+    DemoScore,
+    AudioPlayer
   }
 }
 </script>
