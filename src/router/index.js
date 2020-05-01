@@ -5,7 +5,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/', name: 'Home', component: function() {return import ('@/pages/Home')} },
+    { path: '/', name: 'Home', component: function() {return import ('@/pages/home')} },
     { path: '/audio', name: 'Audio', component: function() {return import ('@/pages/audio/audio')} }
   ]
 })
