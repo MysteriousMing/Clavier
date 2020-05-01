@@ -45,7 +45,7 @@ export default {
     type (to, from) {
       if (to) {
         this.Notes = this.notesReady[to]
-        this.playText()
+        // this.playText()
       }
     }
   },
@@ -208,6 +208,10 @@ export default {
         clearTimeout(each.playTiming)
       })
       this.isPlaying = false
+      this.activeLetter = {
+        wordIndex: -1,
+        letterIndex: -1
+      }
       this.$emit('stop')
     }
   },
