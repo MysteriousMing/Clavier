@@ -2,7 +2,8 @@
   <main class="page-audio">
     <header class="">
     <section id="testAudio" class="flex-row">
-      <button class="button mx-auto" @click="playText()">Play</button>
+      <button class="button mx-auto" @click="playText()">Play Text</button>
+      <button v-if="isPlaying" class="button ml-2" @click="stop()">Stop</button>
     </section>
     </header>
     <section>
@@ -14,15 +15,16 @@
         <span v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" class="word word-span" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}" :style="{'padding-right': alpha.meters * 200 + 'px'}"><span class="word-letter">{{alpha.letter}}</span><span class="word-meter">{{alpha.metersStr}}</span></span>
       </span>
     </section>
-    
-    <section style="width: 50%; float: left">
-      InLine Mode
-      <div class="word-wrap">
-        <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
-          <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}">{{alpha.letter}}</span>
-        </span>
-      </div>
-    </section>
+    <van-sticky>
+      <section style="width: 50%; float: right">
+        InLine Mode
+          <div class="word-wrap">
+            <span class="word" style="margin-right: 4px" v-for="(item, index) in paraArr" :key="index">
+              <span  v-for="(alpha, alphaIndex) in item" :key="index + '_' +alphaIndex" :class="{'highlight': index == activeLetter.wordIndex && alphaIndex == activeLetter.letterIndex}">{{alpha.letter}}</span>
+            </span>
+          </div>
+      </section>
+    </van-sticky>
   </main>
 </template>
 
@@ -37,6 +39,15 @@ export default {
   name: 'AudioPlayer',
   props: {
     paraText: String,
+    type: String,
+  },
+  watch: {
+    type (to, from) {
+      if (to) {
+        this.Notes = this.notesReady[to]
+        this.playText()
+      }
+    }
   },
   data() {
     return {
@@ -59,7 +70,10 @@ export default {
         isPlaying: false,
         isPause: false,
         isStop: true
-      }
+      },
+      playingCaches: [],
+      isPlaying: false,
+      playTiming: undefined
     }
   },
   computed: {
@@ -148,12 +162,12 @@ export default {
     },
     playText() {
       let vm = this
-      let noteArr = this.computedEachNote()
+      this.playingCaches = this.computedEachNote()
 
       let _cacheWordInedx = 0
       // 初始化播放位置 用 settimeout 总感觉有点不靠谱 可以先这么苟着 需要加一个控制的东西
       let timeoutValue = 500
-      noteArr.forEach((each) => {
+      this.playingCaches.forEach((each) => {
         if (_cacheWordInedx != each.wordIndex) {
           timeoutValue = timeoutValue + vm.alphaDuration / 2
           _cacheWordInedx = each.wordIndex
@@ -164,8 +178,9 @@ export default {
           vm.activeLetter.wordIndex = each.wordIndex
           vm.activeLetter.letterIndex = each.letterIndex
         }
-        setTimeout(set, timeoutValue);
+        each.playTiming =  setTimeout(set, timeoutValue);
       })
+      this.$emit('start')
       timeoutValue = timeoutValue + vm.alphaDuration
       setTimeout(() => {
         vm.activeLetter.wordIndex = -1
@@ -185,8 +200,16 @@ export default {
     playNote(notename = 'C4', duration = '1n') {
       if (!this.synth) return
       // console.log(notename)
+      this.isPlaying = true
       this.synth.triggerAttackRelease(notename, duration);
     },
+    stop() {
+      this.playingCaches.forEach((each) => {
+        clearTimeout(each.playTiming)
+      })
+      this.isPlaying = false
+      this.$emit('stop')
+    }
   },
 }
 </script>

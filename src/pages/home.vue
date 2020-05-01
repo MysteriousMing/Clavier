@@ -2,14 +2,14 @@
   <div class="page-home">
     <div class="app-bg"></div>
 
-    <Piano></Piano>
+    <Piano @changeNote="changeAudioType"></Piano>
 
     <section class="page-section-wrap">
       <textarea class="input-textarea" v-model="textStore" placeholder="input your text here!"></textarea>
     </section>
     <p class="input-tips">Word 'Clavier' extracted from Well-tempered Claviar by Bach. Not only the keyboard ⌨️ but the key board 🎹 Type something here, and listen the music for your words.</p>
     <section>
-       <AudioPlayer :para-text="textStore"></AudioPlayer>
+       <AudioPlayer :para-text="textStore" :type="audioType"></AudioPlayer>
     </section>
     <PageFooter></PageFooter>
   </div>
@@ -30,7 +30,8 @@ export default {
   data() {
     return {
       percent: 0,
-      textStore: DemoText.para
+      textStore: DemoText.para,
+      audioType: 'notes_major'
     }
   },
   mounted() {
@@ -73,6 +74,10 @@ export default {
     this.handleAutoPianoload(100)
   },
   methods: {
+    changeAudioType(type) {
+      console.log(type)
+      this.audioType = type
+    },
     handleAutoPianoload(data) {
       var vm = this;
       vm.percent = data;

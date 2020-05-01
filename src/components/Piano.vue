@@ -116,6 +116,7 @@ export default {
   watch: {
     showNoteType (to, from) {
       console.log(from, to)
+      this.$emit('changeNote', to)
       this.Notes = this.notesReady[to]
       this.rebuildNotes()
     }

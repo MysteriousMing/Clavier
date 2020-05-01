@@ -10,7 +10,11 @@
   ],
   "plugins": [
     "transform-runtime",
-    ["import", { "libraryName": "vant", "style": true }]
+    ["import", {
+      "libraryName": "vant",
+      "libraryDirectory": "es",
+      "style": true
+    }]
   ],
   "env": {
     "test": {

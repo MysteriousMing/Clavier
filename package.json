@@ -10,7 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@vant/touch-emulator": "^1.2.0",
     "tone": "^13.4.9",
+    "vant": "^2.7.1",
     "vue-router": "^2.7.0"
   },
   "devDependencies": {
